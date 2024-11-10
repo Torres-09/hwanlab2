@@ -14,12 +14,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
 import com.hwanlab2.service.LabService;
 
 @WebMvcTest(controllers = LabController.class)
@@ -42,11 +44,11 @@ class LabControllerTest {
 	@Test
 	@DisplayName("bye를 결과로 반환합니다.")
 	void bye를_결과로_반환하는_테스트() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/bye")
+		this.mockMvc.perform(RestDocumentationRequestBuilders.get("/bye")
 				.param("greeting", "hello"))
 			.andExpect(status().isOk())
 			.andExpect(content().string("bye"))
-			.andDo(document("bye",
+			.andDo(MockMvcRestDocumentationWrapper.document("bye",
 				queryParameters(
 					parameterWithName("greeting").description("인사말 메시지")
 				),

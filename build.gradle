@@ -3,6 +3,7 @@ plugins {
 	id 'org.springframework.boot' version '3.3.5'
 	id 'io.spring.dependency-management' version '1.1.6'
 	id 'org.asciidoctor.jvm.convert' version '3.3.2'
+	id 'com.epages.restdocs-api-spec' version '0.18.4' // 1
 }
 
 group = 'com'
@@ -37,14 +38,32 @@ dependencies {
 	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'com.epages:restdocs-api-spec-mockmvc:0.18.4' // 3
 }
 
 tasks.named('test') {
-	outputs.dir snippetsDir
 	useJUnitPlatform()
+	finalizedBy('copyOasToSwagger') // test 태스크 실행 후에 copyOasToSwagger 태스크 실행
 }
 
-tasks.named('asciidoctor') {
-	inputs.dir snippetsDir
-	dependsOn test
+openapi3 {
+	server = 'https://localhost:8080'
+	title = 'ITEM-BROWSER API'
+	description = 'ITEM-BROWSER API'
+	version = '0.0.1'
+	format = 'yaml'
+}
+
+tasks.register('copyOasToSwagger', Copy) {
+	// 기존 yaml 파일 삭제
+	delete 'src/main/resources/static/swagger-ui/openapi3.yaml'
+
+	// 복제할 yaml 파일 타겟팅
+	from "$buildDir/api-spec/openapi3.yaml"
+
+	// 타겟 디렉토리로 파일 복제
+	into 'src/main/resources/static/swagger-ui'
+
+	// openapi3 task가 먼저 실행되도록 설정
+	dependsOn tasks.named('openapi3')
 }
