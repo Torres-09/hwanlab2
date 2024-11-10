@@ -1,0 +1,35 @@
+openapi: 3.0.1
+info:
+  title: ITEM-BROWSER API
+  description: ITEM-BROWSER API
+  version: 0.0.1
+servers:
+- url: https://localhost:8080
+tags: []
+paths:
+  /bye:
+    get:
+      tags:
+      - bye
+      operationId: bye
+      parameters:
+      - name: greeting
+        in: query
+        description: 인사말 메시지
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "200"
+          content:
+            text/plain;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/bye486549215'
+              examples:
+                bye:
+                  value: bye
+components:
+  schemas:
+    bye486549215:
+      type: object
