@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -44,8 +45,10 @@ class LabControllerTest {
 	@Test
 	@DisplayName("bye를 결과로 반환합니다.")
 	void bye를_결과로_반환하는_테스트() throws Exception {
+		Mockito.when(labService.greeting("bye")).thenReturn("bye");
+
 		this.mockMvc.perform(RestDocumentationRequestBuilders.get("/bye")
-				.param("greeting", "hello"))
+				.param("greeting", "bye"))
 			.andExpect(status().isOk())
 			.andExpect(content().string("bye"))
 			.andDo(MockMvcRestDocumentationWrapper.document("bye",

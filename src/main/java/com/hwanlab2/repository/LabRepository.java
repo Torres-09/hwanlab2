@@ -7,5 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Repository
 @RequiredArgsConstructor
 public class LabRepository {
-
+	public String greeting(String greeting) {
+		return greeting;
+	}
 }

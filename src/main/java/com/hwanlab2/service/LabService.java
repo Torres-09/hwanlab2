@@ -10,4 +10,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LabService {
 	private final LabRepository labRepository;
+
+	public String greeting(String greeting) {
+		return labRepository.greeting(greeting);
+	}
 }

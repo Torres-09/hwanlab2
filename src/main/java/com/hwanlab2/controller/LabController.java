@@ -16,6 +16,6 @@ public class LabController {
 
 	@GetMapping("/bye")
 	public ResponseEntity<String> getGreet(@RequestParam String greeting) {
-		return ResponseEntity.status(200).body("bye");
+		return ResponseEntity.status(200).body(labService.greeting(greeting));
 	}
 }
